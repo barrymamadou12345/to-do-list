@@ -2,31 +2,27 @@
 
 let taches = [];
 // Fonction pour ajouter une tâche
+let inputTache ;
 function ajoutTache() {
-  const inputTache = document.getElementById("inputTache");
-  const tacheText = inputTache.value.trim();
+  inputTache = document.getElementById("inputTache");
+  const tacheText = inputTache.value;
   if (tacheText !== "") {
-    taches.push(tacheText);
+    taches.unshift(tacheText);
     inputTache.value = "";
     affichage();
   }
 }
 
-function deleteTask(index) {
-  taches.splice(index, 1);
-  affichage();
-}
-
 function affichage() {
   const ListTache = document.getElementById("ListTache");
   ListTache.innerHTML = "";
-
+  
   taches.forEach((tache, index ) => {
     const listItem = document.createElement("li");
+    ListTache.appendChild(listItem);
     listItem.className = "lii";
     const tacheText = document.createTextNode(tache);
     listItem.appendChild(tacheText);
-    ListTache.appendChild(listItem);
     const toDoButton = document.createElement("button");
     toDoButton.className = " boutonn";
     toDoButton.textContent = "To Do";
@@ -48,11 +44,14 @@ function affichage() {
     doneButton.addEventListener("click", function() {
       listItem.className = ('rendu2');
     });
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "suprim";
-    deleteButton.textContent = " X ";
-    deleteButton.onclick = () => deleteTask(index);
-    listItem.appendChild(deleteButton);
+    const deletBtn = document.createElement("button");
+    deletBtn.className = "suprim";
+    deletBtn.textContent = "X";
+    listItem.appendChild(deletBtn);
+    deletBtn.addEventListener("click", function() {
+    listItem.remove(index);
+    taches.splice(index, 1);
+    });
   });
 }
 affichage();
