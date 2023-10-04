@@ -1,18 +1,18 @@
 
-
-let taches = [];
+let  tachesLocalStorage = JSON.parse(localStorage.getItem('open'));
+let taches = tachesLocalStorage || [];
 // Fonction pour ajouter une tâche
 let inputTache ;
+
 function ajoutTache() {
   inputTache = document.getElementById("inputTache");
   const tacheText = inputTache.value;
   if (tacheText !== "") {
     taches.unshift(tacheText);
     inputTache.value = "";
-    affichage();
+    affichage() ;
   }
 }
-
 function affichage() {
   const ListTache = document.getElementById("ListTache");
   ListTache.innerHTML = "";
@@ -49,10 +49,17 @@ function affichage() {
     deletBtn.textContent = "X";
     listItem.appendChild(deletBtn);
     deletBtn.addEventListener("click", function() {
-    listItem.remove(index);
-    taches.splice(index, 1);
+      listItem.remove(index);
+      taches.splice(index, 1);
+      localStorage.setItem('open', JSON.stringify(taches)) ;
     });
+    localStorage.setItem('open', JSON.stringify(taches)) ;
   });
 }
 affichage();
+
+taches.forEach(() => {
+  affichage();
+  localStorage.setItem('open', JSON.stringify(taches)) ;
+})
 
