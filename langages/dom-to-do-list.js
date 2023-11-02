@@ -71,6 +71,7 @@ function affichage() {
       listItem.remove();
       taches.splice(index, 1);
       sauvegarderTaches();
+      location.reload();
     });
 
     // Appliquez les classes CSS appropriées en fonction de l'état de la tâche
