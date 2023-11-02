@@ -52,18 +52,18 @@
 }
 .lii{
   color: rgb(3, 79, 102);
-  background-color: rgb(255, 0, 0);
+  background-color: rgba(255, 0, 0, 0.479);
 }
 .gris{
-  background-color: rgb(255, 0, 0);
+  background-color: rgba(255, 0, 0, 0.632);
   color: white;
 }
 .rendu{
-  background-color: rgb(255, 153, 0);
+  background-color: rgba(255, 153, 0, 0.804);
   color: rgb(3, 73, 50);
 }
 .rendu2{
-  background-color: rgb(6, 172, 0);
+  background-color: rgba(9, 119, 5, 0.717);
   color: white;
 }
 
