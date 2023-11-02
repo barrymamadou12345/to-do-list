@@ -1,65 +1,92 @@
 
-let  tachesLocalStorage = JSON.parse(localStorage.getItem('open'));
+let tachesLocalStorage = JSON.parse(localStorage.getItem('open'));
 let taches = tachesLocalStorage || [];
-// Fonction pour ajouter une tâche
-let inputTache ;
+
+let inputTache;
 
 function ajoutTache() {
   inputTache = document.getElementById("inputTache");
-  const tacheText = inputTache.value;
+  let tacheText = inputTache.value;
   if (tacheText !== "") {
-    taches.unshift(tacheText);
+    // Créez un objet pour stocker l'état de la nouvelle tâche avec l'état "To Do" par défaut.
+    let nouvelleTache = {
+      text: tacheText,
+      state: "To Do",
+    };
+    taches.unshift(nouvelleTache);
     inputTache.value = "";
-    affichage() ;
+    sauvegarderTaches();
+    affichage();
   }
 }
+
 function affichage() {
-  const ListTache = document.getElementById("ListTache");
+  let ListTache = document.getElementById("ListTache");
   ListTache.innerHTML = "";
-  
-  taches.forEach((tache, index ) => {
-    const listItem = document.createElement("li");
+
+  taches.forEach((tache, index) => {
+    let listItem = document.createElement("li");
     ListTache.appendChild(listItem);
-    listItem.className = "lii";
-    const tacheText = document.createTextNode(tache);
+    listItem.classList.add("lii");
+
+    let tacheText = document.createTextNode(tache.text);
     listItem.appendChild(tacheText);
-    const toDoButton = document.createElement("button");
-    toDoButton.className = " boutonn";
+
+    // Créez des boutons pour changer l'état de la tâche
+    let toDoButton = document.createElement("button");
+    toDoButton.className = "boutonn";
     toDoButton.textContent = "To Do";
     listItem.appendChild(toDoButton);
-    toDoButton.addEventListener("click", function() {
-      listItem.className = ('gris');
+    toDoButton.addEventListener("click", function () {
+      tache.state = "To Do";
+      listItem.className = "gris";
+      sauvegarderTaches();
     });
-    const doingButton = document.createElement("button");
+
+    let doingButton = document.createElement("button");
     doingButton.className = "boutonn2";
     doingButton.textContent = "Doing";
     listItem.appendChild(doingButton);
-    doingButton.addEventListener("click", function() {
-      listItem.className = ('rendu');
+    doingButton.addEventListener("click", function () {
+      tache.state = "Doing";
+      listItem.className = "rendu";
+      sauvegarderTaches();
     });
-    const doneButton = document.createElement("button");
+
+    let doneButton = document.createElement("button");
     doneButton.className = "boutonn3";
     doneButton.textContent = "Done";
     listItem.appendChild(doneButton);
-    doneButton.addEventListener("click", function() {
-      listItem.className = ('rendu2');
+    doneButton.addEventListener("click", function () {
+      tache.state = "Done";
+      listItem.className = "rendu2";
+      sauvegarderTaches();
     });
-    const deletBtn = document.createElement("button");
+
+    let deletBtn = document.createElement("button");
     deletBtn.className = "suprim";
     deletBtn.textContent = "X";
     listItem.appendChild(deletBtn);
-    deletBtn.addEventListener("click", function() {
-      listItem.remove(index);
+    deletBtn.addEventListener("click", function () {
+      listItem.remove();
       taches.splice(index, 1);
-      localStorage.setItem('open', JSON.stringify(taches)) ;
+      sauvegarderTaches();
     });
-    localStorage.setItem('open', JSON.stringify(taches)) ;
+
+    // Appliquez les classes CSS appropriées en fonction de l'état de la tâche
+    if (tache.state === "To Do") {
+      listItem.className = "gris";
+    } else if (tache.state === "Doing") {
+      listItem.className = "rendu";
+    } else if (tache.state === "Done") {
+      listItem.className = "rendu2";
+    }
   });
 }
+
+// Fonction pour sauvegarder les tâches dans le stockage local
+function sauvegarderTaches() {
+  localStorage.setItem('open', JSON.stringify(taches));
+}
+
 affichage();
-
-taches.forEach(() => {
-  affichage();
-  localStorage.setItem('open', JSON.stringify(taches)) ;
-})
-
