@@ -1,5 +1,4 @@
-
-let tachesLocalStorage = JSON.parse(localStorage.getItem('open'));
+let tachesLocalStorage = JSON.parse(localStorage.getItem("open"));
 let taches = tachesLocalStorage || [];
 
 let inputTache;
@@ -28,6 +27,12 @@ function affichage() {
     let listItem = document.createElement("li");
     ListTache.appendChild(listItem);
     listItem.classList.add("lii");
+
+    function deleteUser(index) {
+      listItem.remove();
+      taches.splice(index, 1);
+      sauvegarderTaches()
+    }
 
     let tacheText = document.createTextNode(tache.text);
     listItem.appendChild(tacheText);
@@ -68,10 +73,7 @@ function affichage() {
     deletBtn.textContent = "X";
     listItem.appendChild(deletBtn);
     deletBtn.addEventListener("click", function () {
-      listItem.remove();
-      taches.splice(index, 1);
-      sauvegarderTaches();
-      location.reload();
+      deleteUser()
     });
 
     // Appliquez les classes CSS appropriées en fonction de l'état de la tâche
@@ -87,7 +89,7 @@ function affichage() {
 
 // Fonction pour sauvegarder les tâches dans le stockage local
 function sauvegarderTaches() {
-  localStorage.setItem('open', JSON.stringify(taches));
+  localStorage.setItem("open", JSON.stringify(taches));
 }
 
 affichage();
